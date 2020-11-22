@@ -1,8 +1,8 @@
 set.seed(1)
 library(ggplot2)
-library(dplyr)
+library(reshape2)
 
-n_samples <- 1000
+n_samples <- 10000
 mi <- 0.4
 sigma <- 0.5
 
@@ -11,6 +11,7 @@ X <- rnorm(n_samples, mi, sigma)
 
 X2 <- 2*X + 4
 X3 <- X^2
+X4 <- exp(X)
 
 mean(X2)
 2*mi + 4
@@ -18,14 +19,10 @@ mean(X2)
 mean(X3)
 mi^2 + sigma^2
 
-plot <- ggplot(data = data.frame(x=XX, y=X), aes(x = X)) +
+mean(X4)
+
+data <- melt(data.frame(X, X2, X3, X4))
+
+plot <- ggplot(data, aes(x = value, color=variable)) +
   geom_density()
 plot(plot)
-
-plot2 <- ggplot(data = data.frame(x=XX, y=X2), aes(x = X2)) +
-  geom_density()
-plot(plot2)
-
-plot3 <- ggplot(data = data.frame(x=XX, y=X3), aes(x = X3)) +
-  geom_density()
-plot(plot3)
